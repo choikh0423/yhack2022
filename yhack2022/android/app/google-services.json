@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "569421883829",
+    "project_id": "yhack2022-99de7",
+    "storage_bucket": "yhack2022-99de7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:569421883829:android:90109486be815787bf91fc",
+        "android_client_info": {
+          "package_name": "com.example.yhack2022"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "569421883829-ua2ahur5q8tt0mfphm8pgfkbm2buiuuh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAFVwxL3cip_Tjpor4E-rFcQ8K0XPuh95Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "569421883829-ua2ahur5q8tt0mfphm8pgfkbm2buiuuh.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "569421883829-dvkhf3mjktbvsbisf6id7mku79p9egoj.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.yhack2022"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
