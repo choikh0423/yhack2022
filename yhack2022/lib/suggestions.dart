@@ -4,6 +4,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+final bool? checked = false;
+final bool? checked2 = false;
+
 class SearchPage extends StatelessWidget {
   const SearchPage({Key? key}) : super(key: key);
 
@@ -37,7 +40,12 @@ class SearchPage extends StatelessWidget {
 }
 
 class suggestions extends StatefulWidget {
-  const suggestions({Key? key}) : super(key: key);
+  suggestions({Key? key, required this.danger, required this.layered})
+      : super(key: key);
+
+  final List<String> danger;
+  final bool layered;
+  bool is_descending = false;
 
   @override
   State<suggestions> createState() => _suggestionsState();
@@ -48,6 +56,60 @@ class _suggestionsState extends State<suggestions> {
   TextEditingController _textFieldController = TextEditingController();
   int _currentRoute = 0;
 
+  appbarPresence(layered) {
+    if (layered == false) {
+      return AppBar(
+          leading: GestureDetector(
+            onTap: () {
+              setState(() {
+                _suggestionsState();
+              });
+            },
+            child: Icon(Icons.refresh),
+          ),
+          actions: <Widget>[
+            IconButton(
+                onPressed: () => Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (_) => SearchPage())),
+                icon: Icon(Icons.search)),
+            SizedBox(width: 10.0),
+            GestureDetector(
+                onTap: () {
+                  _Filter(context, checked, checked2);
+                },
+                child: Icon(Icons.account_tree_outlined)),
+            SizedBox(width: 10.0),
+            GestureDetector(
+                onTap: () {
+                  setState(() {
+                    _suggestionsState();
+                    widget.is_descending = true;
+                  });
+                },
+                child: Icon(Icons.arrow_upward_sharp)),
+            SizedBox(width: 10.0),
+            GestureDetector(
+                onTap: () {
+                  setState(() {
+                    _suggestionsState();
+                    widget.is_descending = false;
+                  });
+                },
+                child: Icon(Icons.arrow_downward_sharp)),
+            SizedBox(width: 10.0),
+          ]);
+    } else {
+      return AppBar(
+        leading: IconButton(
+          icon: Icon(Icons.keyboard_arrow_left_sharp),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+      );
+    }
+  }
+
   Widget build(BuildContext context) {
     return Navigator(
       onGenerateRoute: (RouteSettings settings) {
@@ -55,34 +117,9 @@ class _suggestionsState extends State<suggestions> {
             settings: settings,
             builder: (BuildContext context) {
               return Scaffold(
-                appBar: AppBar(
-                    leading: GestureDetector(
-                      onTap: () {
-                        setState(() {});
-                      },
-                      child: Icon(Icons.refresh),
-                    ),
-                    actions: <Widget>[
-                      IconButton(
-                          onPressed: () => Navigator.of(context).push(
-                              MaterialPageRoute(builder: (_) => SearchPage())),
-                          icon: Icon(Icons.search)),
-                      SizedBox(width: 10.0),
-                      GestureDetector(
-                          onTap: () {
-                            _Filter(context);
-                          },
-                          child: Icon(Icons.account_tree_outlined)),
-                      SizedBox(width: 10.0),
-                      GestureDetector(
-                          onTap: () {}, child: Icon(Icons.arrow_upward_sharp)),
-                      SizedBox(width: 10.0),
-                      GestureDetector(
-                          onTap: () {},
-                          child: Icon(Icons.arrow_downward_sharp)),
-                      SizedBox(width: 10.0),
-                    ]),
-                body: ContentList(),
+                appBar: appbarPresence(widget.layered),
+                body: ContentList(
+                    danger: widget.danger, isDescending: widget.is_descending),
                 backgroundColor: Colors.white,
               );
             });
@@ -92,7 +129,11 @@ class _suggestionsState extends State<suggestions> {
 }
 
 class ContentList extends StatefulWidget {
-  const ContentList({Key? key}) : super(key: key);
+  ContentList({Key? key, required this.danger, required this.isDescending})
+      : super(key: key);
+
+  final List<String> danger;
+  final bool isDescending;
 
   @override
   State<ContentList> createState() => _ContentListState();
@@ -100,11 +141,18 @@ class ContentList extends StatefulWidget {
 
 class _ContentListState extends State<ContentList> {
   Future<QuerySnapshot> get_documents() async {
-    final list = [];
-    return await FirebaseFirestore.instance
-        .collection('content')
-        .orderBy('date_created', descending: false)
-        .get();
+    print(widget.danger);
+    if (widget.danger.length == 0) {
+      return await FirebaseFirestore.instance
+          .collection('content')
+          .orderBy('date_created', descending: widget.isDescending)
+          .get();
+    } else {
+      return await FirebaseFirestore.instance
+          .collection('content')
+          .where('danger', arrayContainsAny: widget.danger)
+          .get();
+    }
   }
 
   array_to_string(arr) {
@@ -121,6 +169,7 @@ class _ContentListState extends State<ContentList> {
       future: get_documents(),
       builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
+          print(snapshot.data);
           return ListView.builder(
             itemCount: snapshot.data!.docs.length,
             padding: EdgeInsets.all(20),
@@ -200,9 +249,9 @@ void _launchURL(_url) async {
   if (!await launch(_url)) throw 'Could not launch $_url';
 }
 
-void _Filter(BuildContext context) {
-  bool? checked = false;
-  bool? checked2 = false;
+void _Filter(BuildContext context, bool? checked, bool? checked2) {
+  final List<String> danger = [];
+  final bool layered = true;
   showDialog(
     context: context,
     builder: (context) {
@@ -234,15 +283,29 @@ void _Filter(BuildContext context) {
                           setState(() {
                             checked2 = value;
                           });
+                          print(checked2);
                         },
                       ),
-                      Text('Danger-filter'),
+                      Text('Personal Information'),
                     ],
                   ),
                   Row(
                     children: [
                       FlatButton(
-                        onPressed: () => Navigator.pop(context),
+                        onPressed: () {
+                          if (checked == true) {
+                            danger.add('Profanity');
+                          }
+                          if (checked2 == true) {
+                            danger.add('Personal Information');
+                          }
+                          Navigator.pop(context);
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => suggestions(
+                                      danger: danger, layered: layered)));
+                        },
                         child: Text("Submit"),
                       ),
                       FlatButton(

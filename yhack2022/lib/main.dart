@@ -56,7 +56,13 @@ class _homepageState extends State<homepage> {
       )),
       body: IndexedStack(
         index: _selectedIndex,
-        children: [suggestions(), search()],
+        children: [
+          suggestions(
+            danger: <String>[],
+            layered: false,
+          ),
+          search()
+        ],
       ),
       bottomNavigationBar: Container(
         //decoration
