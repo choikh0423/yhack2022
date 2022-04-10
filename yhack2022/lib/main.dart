@@ -5,6 +5,7 @@ import 'suggestions.dart';
 import 'search.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'Palette.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -33,8 +34,8 @@ class _homepageState extends State<homepage> {
   int _selectedIndex = 0;
 
   static const List<Widget> _appBarTitle = <Widget>[
-    Text('Suggestions'),
-    Text('Search')
+    Text('Suggestions', style: (TextStyle(color: Colors.black))),
+    Text('Search',style: (TextStyle(color: Colors.black)))
   ];
 
   void _onItemTapped(int index) {
@@ -46,6 +47,7 @@ class _homepageState extends State<homepage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Palette.passiveColor,
           title: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
@@ -62,9 +64,11 @@ class _homepageState extends State<homepage> {
         //decoration
         child: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
-          backgroundColor: Colors.blue,
+          backgroundColor: Palette.passiveColor,
+          fixedColor: Colors.black,
           items: <BottomNavigationBarItem>[
             BottomNavigationBarItem(
+              backgroundColor: Palette.activeColor,
                 icon: Icon(Icons.lightbulb), label: "suggestions"),
             BottomNavigationBarItem(icon: Icon(Icons.search), label: "search"),
           ],

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'Palette.dart';
 
 class SearchPage extends StatelessWidget {
   const SearchPage({Key? key}) : super(key: key);
@@ -11,6 +12,7 @@ class SearchPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Palette.activeColor,
           // The search area here
           title: Container(
         width: double.infinity,
@@ -56,30 +58,32 @@ class _suggestionsState extends State<suggestions> {
             builder: (BuildContext context) {
               return Scaffold(
                 appBar: AppBar(
+                  backgroundColor: Colors.white,
+                    shadowColor: Colors.transparent,
                     leading: GestureDetector(
                       onTap: () {
                         setState(() {});
                       },
-                      child: Icon(Icons.refresh),
+                      child: Icon(Icons.refresh, color: Colors.black),
                     ),
                     actions: <Widget>[
                       IconButton(
                           onPressed: () => Navigator.of(context).push(
                               MaterialPageRoute(builder: (_) => SearchPage())),
-                          icon: Icon(Icons.search)),
+                          icon: Icon(Icons.search, color: Colors.black)),
                       SizedBox(width: 10.0),
                       GestureDetector(
                           onTap: () {
                             _Filter(context);
                           },
-                          child: Icon(Icons.account_tree_outlined)),
+                          child: Icon(Icons.account_tree_outlined, color: Colors.black)),
                       SizedBox(width: 10.0),
                       GestureDetector(
-                          onTap: () {}, child: Icon(Icons.arrow_upward_sharp)),
+                          onTap: () {}, child: Icon(Icons.arrow_upward_sharp, color: Colors.black)),
                       SizedBox(width: 10.0),
                       GestureDetector(
                           onTap: () {},
-                          child: Icon(Icons.arrow_downward_sharp)),
+                          child: Icon(Icons.arrow_downward_sharp, color: Colors.black)),
                       SizedBox(width: 10.0),
                     ]),
                 body: ContentList(),
@@ -213,6 +217,19 @@ void _Filter(BuildContext context) {
             actions: <Widget>[
               Column(
                 children: [
+                  Row(
+                    children: [
+                      Checkbox(
+                        value: checked,
+                        onChanged: (value) {
+                          setState(() {
+                            checked = value;
+                          });
+                        },
+                      ),
+                      Text('Personal Information'),
+                    ],
+                  ),
                   Row(
                     children: [
                       Checkbox(

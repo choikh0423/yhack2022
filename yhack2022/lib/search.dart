@@ -8,27 +8,28 @@ class SearchPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        // The search area here
+        backgroundColor: Colors.white,
+          // The search area here
           title: Container(
-            width: double.infinity,
-            height: 40,
-            decoration: BoxDecoration(
-                color: Colors.white, borderRadius: BorderRadius.circular(5)),
-            child: Center(
-              child: TextField(
-                decoration: InputDecoration(
-                    prefixIcon: Icon(Icons.search),
-                    suffixIcon: IconButton(
-                      icon: Icon(Icons.clear),
-                      onPressed: () {
-                        /* Clear the search field */
-                      },
-                    ),
-                    hintText: 'Search...',
-                    border: InputBorder.none),
-              ),
-            ),
-          )),
+        width: double.infinity,
+        height: 40,
+        decoration: BoxDecoration(
+            color: Colors.white, borderRadius: BorderRadius.circular(5)),
+        child: Center(
+          child: TextField(
+            decoration: InputDecoration(
+                prefixIcon: Icon(Icons.search,color: Colors.black,),
+                suffixIcon: IconButton(
+                  icon: Icon(Icons.clear,color: Colors.black,),
+                  onPressed: () {
+                    /* Clear the search field */
+                  },
+                ),
+                hintText: 'Search...',
+                border: InputBorder.none),
+          ),
+        ),
+      )),
     );
   }
 }
@@ -45,8 +46,9 @@ class _searchState extends State<search> {
   TextEditingController _textFieldController = TextEditingController();
   int _currentRoute = 0;
 
-
   Widget build(BuildContext context) {
+    bool? checked = false;
+    bool? checked2 = false;
     return Navigator(
       onGenerateRoute: (RouteSettings settings) {
         return MaterialPageRoute(
@@ -54,32 +56,31 @@ class _searchState extends State<search> {
             builder: (BuildContext context) {
               return Scaffold(
                 appBar: AppBar(
+                    backgroundColor: Colors.white,
                     leading: GestureDetector(
                       onTap: () {
                         _link(context, ".com");
                       },
-                      child: Icon(Icons.refresh),
+                      child: Icon(Icons.refresh,color: Colors.black,),
                     ),
                     actions: <Widget>[
                       IconButton(
-                          onPressed: () =>
-                              Navigator.of(context)
-                                  .push(
-                                  MaterialPageRoute(builder: (_) => SearchPage())),
-                          icon: Icon(Icons.search)),
+                          onPressed: () => Navigator.of(context).push(
+                              MaterialPageRoute(builder: (_) => SearchPage())),
+                          icon: Icon(Icons.search,color: Colors.black,)),
                       SizedBox(width: 10.0),
                       GestureDetector(
                           onTap: () {
-                            _Filter(context);
+                            _Filter(context,checked,checked2);
                           },
-                          child: Icon(Icons.account_tree_outlined)),
+                          child: Icon(Icons.account_tree_outlined,color: Colors.black,)),
                       SizedBox(width: 10.0),
                       GestureDetector(
-                          onTap: () {}, child: Icon(Icons.arrow_upward_sharp)),
+                          onTap: () {}, child: Icon(Icons.arrow_upward_sharp,color: Colors.black,)),
                       SizedBox(width: 10.0),
                       GestureDetector(
                           onTap: () {},
-                          child: Icon(Icons.arrow_downward_sharp)),
+                          child: Icon(Icons.arrow_downward_sharp,color: Colors.black,)),
                       SizedBox(width: 10.0),
                     ]),
                 body: ListView(
@@ -154,7 +155,6 @@ class _searchState extends State<search> {
             });
       },
     );
-
   }
 
   void _link(BuildContext context, String url) {
@@ -177,9 +177,8 @@ class _searchState extends State<search> {
     );
   }
 
-  void _Filter(BuildContext context) {
-    bool? checked = false;
-    bool? checked2 = false;
+  void _Filter(BuildContext context, bool? checked, bool? checked2) {
+
     showDialog(
       context: context,
       builder: (context) {
@@ -190,6 +189,19 @@ class _searchState extends State<search> {
               actions: <Widget>[
                 Column(
                   children: [
+                    Row(
+                      children: [
+                        Checkbox(
+                          value: checked,
+                          onChanged: (value) {
+                            setState(() {
+                              checked = value;
+                            });
+                          },
+                        ),
+                        Text('Personal Information'),
+                      ],
+                    ),
                     Row(
                       children: [
                         Checkbox(
