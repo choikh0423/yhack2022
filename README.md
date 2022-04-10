@@ -1,4 +1,4 @@
-# Post Track - Track your posts and comments on Social Media (YHack 2022)
+# Post Track - Track your posts on SNS (YHack 2022)
 
 ## 
 
