@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SearchPage extends StatelessWidget {
   const SearchPage({Key? key}) : super(key: key);
@@ -57,7 +58,7 @@ class _suggestionsState extends State<suggestions> {
                 appBar: AppBar(
                     leading: GestureDetector(
                       onTap: () {
-                        _link(context, ".com");
+                        setState(() {});
                       },
                       child: Icon(Icons.refresh),
                     ),
@@ -125,9 +126,9 @@ class _ContentListState extends State<ContentList> {
             padding: EdgeInsets.all(20),
             itemBuilder: (context, index) {
               return GestureDetector(
-                // onTap: () {
-                //   _link(context);
-                // },
+                onTap: () {
+                  _link(context, snapshot.data!.docs[index]['url']);
+                },
                 child: Container(
                   padding: EdgeInsets.symmetric(vertical: 5),
                   decoration: BoxDecoration(
@@ -186,12 +187,17 @@ void _link(BuildContext context, String url) {
             child: new Text("OK"),
             onPressed: () {
               Navigator.of(context).pop();
+              _launchURL(url);
             },
           ),
         ],
       );
     },
   );
+}
+
+void _launchURL(_url) async {
+  if (!await launch(_url)) throw 'Could not launch $_url';
 }
 
 void _Filter(BuildContext context) {
