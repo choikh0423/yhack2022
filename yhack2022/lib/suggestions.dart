@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'Palette.dart';
 
 final bool? checked = false;
 final bool? checked2 = false;
@@ -14,27 +15,28 @@ class SearchPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+          backgroundColor: Palette.activeColor,
           // The search area here
           title: Container(
-        width: double.infinity,
-        height: 40,
-        decoration: BoxDecoration(
-            color: Colors.white, borderRadius: BorderRadius.circular(5)),
-        child: Center(
-          child: TextField(
-            decoration: InputDecoration(
-                prefixIcon: Icon(Icons.search),
-                suffixIcon: IconButton(
-                  icon: Icon(Icons.clear),
-                  onPressed: () {
-                    /* Clear the search field */
-                  },
-                ),
-                hintText: 'Search...',
-                border: InputBorder.none),
-          ),
-        ),
-      )),
+            width: double.infinity,
+            height: 40,
+            decoration: BoxDecoration(
+                color: Colors.white, borderRadius: BorderRadius.circular(5)),
+            child: Center(
+              child: TextField(
+                decoration: InputDecoration(
+                    prefixIcon: Icon(Icons.search),
+                    suffixIcon: IconButton(
+                      icon: Icon(Icons.clear),
+                      onPressed: () {
+                        /* Clear the search field */
+                      },
+                    ),
+                    hintText: 'Search...',
+                    border: InputBorder.none),
+              ),
+            ),
+          )),
     );
   }
 }
@@ -59,43 +61,33 @@ class _suggestionsState extends State<suggestions> {
   appbarPresence(layered) {
     if (layered == false) {
       return AppBar(
+          backgroundColor: Colors.white,
+          shadowColor: Colors.transparent,
           leading: GestureDetector(
             onTap: () {
-              setState(() {
-                _suggestionsState();
-              });
+              setState(() {});
             },
-            child: Icon(Icons.refresh),
+            child: Icon(Icons.refresh, color: Colors.black),
           ),
           actions: <Widget>[
             IconButton(
                 onPressed: () => Navigator.of(context)
                     .push(MaterialPageRoute(builder: (_) => SearchPage())),
-                icon: Icon(Icons.search)),
+                icon: Icon(Icons.search, color: Colors.black)),
             SizedBox(width: 10.0),
             GestureDetector(
                 onTap: () {
                   _Filter(context, checked, checked2);
                 },
-                child: Icon(Icons.account_tree_outlined)),
+                child: Icon(Icons.account_tree_outlined, color: Colors.black)),
             SizedBox(width: 10.0),
             GestureDetector(
-                onTap: () {
-                  setState(() {
-                    _suggestionsState();
-                    widget.is_descending = true;
-                  });
-                },
-                child: Icon(Icons.arrow_upward_sharp)),
+                onTap: () {},
+                child: Icon(Icons.arrow_upward_sharp, color: Colors.black)),
             SizedBox(width: 10.0),
             GestureDetector(
-                onTap: () {
-                  setState(() {
-                    _suggestionsState();
-                    widget.is_descending = false;
-                  });
-                },
-                child: Icon(Icons.arrow_downward_sharp)),
+                onTap: () {},
+                child: Icon(Icons.arrow_downward_sharp, color: Colors.black)),
             SizedBox(width: 10.0),
           ]);
     } else {
@@ -262,6 +254,19 @@ void _Filter(BuildContext context, bool? checked, bool? checked2) {
             actions: <Widget>[
               Column(
                 children: [
+                  Row(
+                    children: [
+                      Checkbox(
+                        value: checked,
+                        onChanged: (value) {
+                          setState(() {
+                            checked = value;
+                          });
+                        },
+                      ),
+                      Text('Personal Information'),
+                    ],
+                  ),
                   Row(
                     children: [
                       Checkbox(
