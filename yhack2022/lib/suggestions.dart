@@ -3,43 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'Palette.dart';
 
 final bool? checked = false;
 final bool? checked2 = false;
-
-class SearchPage extends StatelessWidget {
-  const SearchPage({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-          backgroundColor: Palette.activeColor,
-          // The search area here
-          title: Container(
-            width: double.infinity,
-            height: 40,
-            decoration: BoxDecoration(
-                color: Colors.white, borderRadius: BorderRadius.circular(5)),
-            child: Center(
-              child: TextField(
-                decoration: InputDecoration(
-                    prefixIcon: Icon(Icons.search),
-                    suffixIcon: IconButton(
-                      icon: Icon(Icons.clear),
-                      onPressed: () {
-                        /* Clear the search field */
-                      },
-                    ),
-                    hintText: 'Search...',
-                    border: InputBorder.none),
-              ),
-            ),
-          )),
-    );
-  }
-}
+final bool? checked3 = false;
 
 class suggestions extends StatefulWidget {
   suggestions({Key? key, required this.danger, required this.layered})
@@ -62,7 +29,6 @@ class _suggestionsState extends State<suggestions> {
     if (layered == false) {
       return AppBar(
           backgroundColor: Colors.white,
-          shadowColor: Colors.transparent,
           leading: GestureDetector(
             onTap: () {
               setState(() {});
@@ -70,28 +36,16 @@ class _suggestionsState extends State<suggestions> {
             child: Icon(Icons.refresh, color: Colors.black),
           ),
           actions: <Widget>[
-            IconButton(
-                onPressed: () => Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (_) => SearchPage())),
-                icon: Icon(Icons.search, color: Colors.black)),
-            SizedBox(width: 10.0),
             GestureDetector(
                 onTap: () {
-                  _Filter(context, checked, checked2);
+                  _Filter(context, checked, checked2, checked3);
                 },
                 child: Icon(Icons.account_tree_outlined, color: Colors.black)),
-            SizedBox(width: 10.0),
-            GestureDetector(
-                onTap: () {},
-                child: Icon(Icons.arrow_upward_sharp, color: Colors.black)),
-            SizedBox(width: 10.0),
-            GestureDetector(
-                onTap: () {},
-                child: Icon(Icons.arrow_downward_sharp, color: Colors.black)),
-            SizedBox(width: 10.0),
+            SizedBox(width: 20.0),
           ]);
     } else {
       return AppBar(
+        backgroundColor: Colors.white,
         leading: IconButton(
           icon: Icon(Icons.keyboard_arrow_left_sharp),
           onPressed: () {
@@ -111,7 +65,9 @@ class _suggestionsState extends State<suggestions> {
               return Scaffold(
                 appBar: appbarPresence(widget.layered),
                 body: ContentList(
-                    danger: widget.danger, isDescending: widget.is_descending),
+                  danger: widget.danger,
+                  isDescending: widget.is_descending,
+                ),
                 backgroundColor: Colors.white,
               );
             });
@@ -133,11 +89,10 @@ class ContentList extends StatefulWidget {
 
 class _ContentListState extends State<ContentList> {
   Future<QuerySnapshot> get_documents() async {
-    print(widget.danger);
     if (widget.danger.length == 0) {
       return await FirebaseFirestore.instance
           .collection('content')
-          .orderBy('date_created', descending: widget.isDescending)
+          .orderBy('level', descending: true)
           .get();
     } else {
       return await FirebaseFirestore.instance
@@ -161,7 +116,6 @@ class _ContentListState extends State<ContentList> {
       future: get_documents(),
       builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
-          print(snapshot.data);
           return ListView.builder(
             itemCount: snapshot.data!.docs.length,
             padding: EdgeInsets.all(20),
@@ -192,13 +146,16 @@ class _ContentListState extends State<ContentList> {
                             ),
                           ],
                         ),
-                        Text("textfield 2: " +
+                        Text(
+                            "Threat Level: " +
+                                snapshot.data!.docs[index]['level'].toString(),
+                            style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.bold)),
+                        Text("Content: " +
                             snapshot.data!.docs[index]['content']),
-                        Text("textfield 3: " +
-                            snapshot.data!.docs[index]['sns']),
-                        Text("textfield 4: " +
-                            snapshot.data!.docs[index]['type']),
-                        Text("textfield 5: input_danger_filter: " +
+                        Text("SNS: " + snapshot.data!.docs[index]['sns']),
+                        Text("Type: " + snapshot.data!.docs[index]['type']),
+                        Text("Danger Filter Detection: " +
                             array_to_string(
                                 snapshot.data!.docs[index]['danger'])),
                       ]),
@@ -241,7 +198,8 @@ void _launchURL(_url) async {
   if (!await launch(_url)) throw 'Could not launch $_url';
 }
 
-void _Filter(BuildContext context, bool? checked, bool? checked2) {
+void _Filter(
+    BuildContext context, bool? checked, bool? checked2, bool? checked3) {
   final List<String> danger = [];
   final bool layered = true;
   showDialog(
@@ -264,19 +222,6 @@ void _Filter(BuildContext context, bool? checked, bool? checked2) {
                           });
                         },
                       ),
-                      Text('Personal Information'),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Checkbox(
-                        value: checked,
-                        onChanged: (value) {
-                          setState(() {
-                            checked = value;
-                          });
-                        },
-                      ),
                       Text('Profanity'),
                     ],
                   ),
@@ -288,10 +233,22 @@ void _Filter(BuildContext context, bool? checked, bool? checked2) {
                           setState(() {
                             checked2 = value;
                           });
-                          print(checked2);
                         },
                       ),
                       Text('Personal Information'),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Checkbox(
+                        value: checked3,
+                        onChanged: (value) {
+                          setState(() {
+                            checked3 = value;
+                          });
+                        },
+                      ),
+                      Text('Unstable Mood'),
                     ],
                   ),
                   Row(
@@ -303,6 +260,9 @@ void _Filter(BuildContext context, bool? checked, bool? checked2) {
                           }
                           if (checked2 == true) {
                             danger.add('Personal Information');
+                          }
+                          if (checked3 == true) {
+                            danger.add('Unstable Mood');
                           }
                           Navigator.pop(context);
                           Navigator.push(

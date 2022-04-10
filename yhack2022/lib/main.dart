@@ -35,7 +35,7 @@ class _homepageState extends State<homepage> {
 
   static const List<Widget> _appBarTitle = <Widget>[
     Text('Suggestions', style: (TextStyle(color: Colors.black))),
-    Text('Search',style: (TextStyle(color: Colors.black)))
+    Text('Search', style: (TextStyle(color: Colors.black)))
   ];
 
   void _onItemTapped(int index) {
@@ -47,15 +47,15 @@ class _homepageState extends State<homepage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Palette.passiveColor,
+          backgroundColor: Palette.passiveColor,
           title: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Center(
-            child: _appBarTitle[_selectedIndex],
-          )
-        ],
-      )),
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Center(
+                child: _appBarTitle[_selectedIndex],
+              )
+            ],
+          )),
       body: IndexedStack(
         index: _selectedIndex,
         children: [
@@ -63,7 +63,10 @@ class _homepageState extends State<homepage> {
             danger: <String>[],
             layered: false,
           ),
-          search()
+          search(
+            danger: <String>[],
+            layered: false,
+          )
         ],
       ),
       bottomNavigationBar: Container(
@@ -74,8 +77,9 @@ class _homepageState extends State<homepage> {
           fixedColor: Colors.black,
           items: <BottomNavigationBarItem>[
             BottomNavigationBarItem(
-              backgroundColor: Palette.activeColor,
-                icon: Icon(Icons.lightbulb), label: "suggestions"),
+                backgroundColor: Palette.activeColor,
+                icon: Icon(Icons.lightbulb),
+                label: "suggestions"),
             BottomNavigationBarItem(icon: Icon(Icons.search), label: "search"),
           ],
           currentIndex: _selectedIndex,
