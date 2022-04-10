@@ -15,4 +15,6 @@
 
 
 ## Contributors
-
+* Seung Chol Cho - App Development
+* Kyu Hwan Choi - App Development
+* Eui Sang Lee - Data Analysis
