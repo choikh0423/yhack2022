@@ -1,4 +1,4 @@
-# (YHack 2022) Footprint - Social Media Tracker for Easy Digital Information Management.
+# Footprint - Social Media Tracker for Easy Digital Information Management.
 <p align="center">
     <img 
     width="500"
