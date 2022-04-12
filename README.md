@@ -7,8 +7,11 @@
   >
 </p>
 
+## Introduction
+Every single posts, comments, and shares that you made on social media are most likely to still be there until now. Majority of people are concerned about the fact that they are losing control of the information they have shared on social media. Social Medias intentionally make it harder for the users to remove the contents that they have uploaded since the more the contents uploaded, the more 
 
 ## Main Functionalities
+
 
 
 ## Versions
@@ -23,7 +26,9 @@ _For Additional Information, check yhack2022/pubspec.yaml_
 
 ## Installing
 ### For IOS:
-
+1. git clone this repository
+2. run flutter pub get command in yhack2022/yhack2022 folder
+3. 
 
 ### For Android:
 
