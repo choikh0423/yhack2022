@@ -16,6 +16,11 @@ class SearchPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
           backgroundColor: Colors.white,
+          leading: GestureDetector(
+              child: Icon(Icons.keyboard_arrow_left_sharp, color: Colors.black),
+              onTap: () {
+                Navigator.pop(context);
+              }),
           // The search area here
           title: Container(
             width: double.infinity,
@@ -112,7 +117,10 @@ class _searchState extends State<search> {
       return AppBar(
         backgroundColor: Colors.white,
         leading: IconButton(
-          icon: Icon(Icons.keyboard_arrow_left_sharp),
+          icon: Icon(
+            Icons.keyboard_arrow_left_sharp,
+            color: Colors.black,
+          ),
           onPressed: () {
             Navigator.pop(context);
           },
@@ -213,8 +221,11 @@ class _ContentListState extends State<ContentList> {
                         ),
                         Text("Content: " +
                             snapshot.data!.docs[index]['content']),
-                        Text("SNS: " + snapshot.data!.docs[index]['sns']),
-                        Text("Type: " + snapshot.data!.docs[index]['type']),
+                        Text("SNS: " +
+                            snapshot.data!.docs[index]['sns'] +
+                            " | " +
+                            "Type: " +
+                            snapshot.data!.docs[index]['type']),
                         Text("Danger Filter Detection: " +
                             array_to_string(
                                 snapshot.data!.docs[index]['danger'])),
