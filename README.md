@@ -30,19 +30,28 @@ Our team is called Bottlecap. We have named our team with the first thing that w
 * Dart: 2.16.2
 _IOS version on Podfile was set to 15.4_
 
+
 ## Dependencies
 _For Additional Information, check yhack2022/pubspec.yaml_
-* Firebase Core: 
+* Firebase Core: 1.14.0
+* Firebase Auth: 3.3.13
+* Firebase Analytics: 9.1.4
+* Cloud Firestore: 3.1.11
+* Cloud Functions: 3.2.11
+* URL Launcher: 6.0.20
 
 
 ## Installing
 ### For IOS:
 1. git clone this repository
 2. run flutter pub get command in yhack2022/yhack2022 folder
-3. 
+3. move to yhack2022/yhack2022/ios and run pod install (make sure that podfile.lock indicates IOS version of 15.4)
 
 ### For Android:
+-To be updated-
 
+## Miscallaneous:
+* Threat Analysis Algorithm has not been fully integrated with the app. Threat Analysis Algorithm currently works seperately from the app.
 
 ## Contributors
 * Seung Chol Cho - App Development
