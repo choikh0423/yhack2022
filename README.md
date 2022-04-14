@@ -13,8 +13,8 @@ Every single posts, comments, and shares that you made on social media are most 
 We strongly resonated with the anxiety that users feel about their personal information. As the first step to help people regain their control over their personal information, we have created Footprint. Footprint is a social media tracker that helps you to easily manage your digital information on social media.
 
 Footprint mainly focusses on these two problems:
-1) Problem #1: It takes too much time to scroll down and view all of your past posts
-2) Problem #2: People are worried that they might have contents on social media that they don't want others to view
+Problem #1: It takes too much time to scroll down and view all of your past posts
+Problem #2: People are worried that they might have contents on social media that they don't want others to view
 
 We have solved these two problems through:
 1) Bringing social media post data in a low memory format that could be easily loaded and organized.
