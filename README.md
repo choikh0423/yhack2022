@@ -16,9 +16,15 @@ Footprint mainly focusses on these two problems:
 Problem #1: It takes too much time to scroll down and view all of your past posts
 Problem #2: People are worried that they might have contents on social media that they don't want others to view
 
+
 We have solved these two problems through:
 1) Bringing social media post data in a low memory format that could be easily loaded and organized.
 2) Providing suggestions for posts that you might want to delete by analyzing your posts with threat analysis algorithm.
+
+## App Demo
+Solarized dark             |  Solarized Ocean
+:-------------------------:|:-------------------------:
+![main_screen](https://user-images.githubusercontent.com/57926472/236097544-b6a2722c-4959-4db0-82f2-ab7f41d0831e.PNG)  |  ![threat_level](https://user-images.githubusercontent.com/57926472/236097579-79fecad7-1ead-4dd0-bdb8-358840fe8e7d.PNG)
 
 
 ## About the Team
